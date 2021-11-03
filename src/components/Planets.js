@@ -9,8 +9,11 @@ const fetchPlanets = async () => {
 
 const Planets = () => {
 
-    const { data, status } = useQuery('planets', fetchPlanets)
-
+    const { data, status } = useQuery('planets', fetchPlanets, {
+        //staleTime: 0, ///Fresh for X miliseconds before it becomes stale
+        //cacheTime:10,  ///Will use cached data from x miliseconds ago, otherwise will refetch
+        onSuccess: () => console.log("message will be shown upon success")
+    })
     console.log(data)
 
     return (
@@ -22,7 +25,7 @@ const Planets = () => {
                 status === "loading" ?
                     <div>Fetch is loading</div>
                     :
-                    <div>{data.results.map(planet=><Planet key={planet.name} planet={planet}/>)}</div>}
+                    <div>{data.results.map(planet => <Planet key={planet.name} planet={planet} />)}</div>}
         </div>
     )
 }
